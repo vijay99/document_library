@@ -1,6 +1,6 @@
 package com.nac.controller;
 
-import com.nac.model.FileMetadata;
+import com.nac.entity.FileMetadata;
 import com.nac.model.FileResponse;
 import com.nac.service.FileMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-@RestController("/api/document")
+@RestController("/document")
 public class DocumentController {
 
     @Value("${upload.path}") // Specify the directory where files will be uploaded
     private String uploadPath;
 
     @Autowired
-    private  FileMetadataService fileMetadataService;
+    private FileMetadataService fileMetadataService;
 
     @PostMapping("/upload")
     public ResponseEntity<FileResponse> uploadFile(@RequestPart("file") MultipartFile file) {
@@ -56,8 +56,6 @@ public class DocumentController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new FileResponse("-1","File upload failed",""));
         }
-
-
     }
 
 }
