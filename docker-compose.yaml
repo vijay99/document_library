@@ -1,0 +1,26 @@
+#version: '3.9'
+services:
+  db:
+    ports:
+      - 5432:5432
+    container_name: postgresql-container
+    image: postgres
+    environment:
+      - POSTGRES_DB=test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - C:\postgres_container_data:/var/lib/postgresql/data
+    restart: always
+  backend:
+    build: .
+    container_name: document-library-container
+    ports:
+      - 8080:8080
+    environment:
+      db-url: jdbc:postgresql://db:5432/test
+      db-username: postgres
+      db-password: admin
+    depends_on:
+      - db
+    restart: always
